@@ -40,7 +40,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
                 StatusCodeResponse = 200,
                 Timezone = "GTM",
                 RequestURL = "www.",
-                UserAgent = "Google Chrome",
+                UserAgents = new List<UserAgent>() { new UserAgent() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)"} },
                 UserIdentifier = "Mario"
             };
             return Ok(new List<Log>() { log });
@@ -64,7 +64,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
                 StatusCodeResponse = 200,
                 Timezone = "GMT",
                 RequestURL = "www.",
-                UserAgent = "Google Chrome",
+                UserAgents = new List<UserAgent>() { new UserAgent() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)" } },
                 UserIdentifier = "Mario"
             };
             return Ok(log);
@@ -139,7 +139,15 @@ namespace TReuters.LogLoader.WebAPI.Controllers
         public int StatusCodeResponse { get; set; }
         public int Port { get; set; }
         public string OriginUrl { get; set; }
-        public string UserAgent { get; set; }
+        public IEnumerable<UserAgent> UserAgents { get; set; }
+    }
+
+    public class UserAgent
+    {
+        public int Id { get; set; }
+        public string Product { get; set; }
+        public string ProductVersion { get; set; }
+        public string SystemInformation { get; set; }
     }
 }
 

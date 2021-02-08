@@ -13,26 +13,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{0646F4D2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{DA4CD3B7-CED2-4656-B189-EB61213A70C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Application", "TReuters.LogLoader.Application\TReuters.LogLoader.Application.csproj", "{C9195510-713B-4E87-BB35-1F3B149771E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Application", "TReuters.LogLoader.Application\TReuters.LogLoader.Application.csproj", "{C9195510-713B-4E87-BB35-1F3B149771E7}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TReuters.LogLoader.WebSite", "..\TReuters.LogLoader.WebSite\", "{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TReuters.LogLoader.WebSite(1)", "TReuters.LogLoader.WebSite\", "{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_54280"
-		Debug.AspNetCompiler.PhysicalPath = "..\TReuters.LogLoader.WebSite\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54280\"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61652"
+		Debug.AspNetCompiler.PhysicalPath = "TReuters.LogLoader.WebSite\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61652\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_54280"
-		Release.AspNetCompiler.PhysicalPath = "..\TReuters.LogLoader.WebSite\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54280\"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61652"
+		Release.AspNetCompiler.PhysicalPath = "TReuters.LogLoader.WebSite\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61652\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "54280"
+		VWDPort = "61652"
 	EndProjectSection
 EndProject
 Global
@@ -49,10 +49,10 @@ Global
 		{C9195510-713B-4E87-BB35-1F3B149771E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9195510-713B-4E87-BB35-1F3B149771E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9195510-713B-4E87-BB35-1F3B149771E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,7 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0584F8E6-054F-472B-8708-E99226B44E61} = {CB6737A0-0143-40E8-A406-FB716ADB3117}
 		{C9195510-713B-4E87-BB35-1F3B149771E7} = {DA4CD3B7-CED2-4656-B189-EB61213A70C5}
-		{0E8BBCE5-FE12-4C78-A022-BFFA8518BA6A} = {CB6737A0-0143-40E8-A406-FB716ADB3117}
+		{C2F7C6CA-2680-4689-A6D3-D5B19DF7BAF9} = {CB6737A0-0143-40E8-A406-FB716ADB3117}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5736214-7635-4365-B13E-F08CBF704749}
