@@ -33,6 +33,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TReuters.LogLoader.WebSite(
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "61652"
+		SlnRelativePath = "TReuters.LogLoader.WebSite\"
 	EndProjectSection
 EndProject
 Global
