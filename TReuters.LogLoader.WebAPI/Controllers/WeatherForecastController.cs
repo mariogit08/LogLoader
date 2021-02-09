@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TReuters.LogLoader.Application.Interfaces;
+using TReuters.LogLoader.Application.Models;
+using TReuters.LogLoader.Infra.Data;
 
 namespace TReuters.LogLoader.WebAPI.Controllers
 {
@@ -16,18 +19,19 @@ namespace TReuters.LogLoader.WebAPI.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly ILogAppService _logAppService;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ILogAppService logAppService)
         {
             _logger = logger;
+            _logAppService = logAppService;
         }
 
         [Route("api/logs")]
         [HttpGet]
-        public async Task<ActionResult<List<Log>>> Get()
+        public async Task<ActionResult<List<LogViewModel>>> Get()
         {
             var rng = new Random();
-            var log = new Log()
+            var log = new LogViewModel()
             {
                 Id = 1,
                 IP = "IP 192.198",
@@ -40,18 +44,18 @@ namespace TReuters.LogLoader.WebAPI.Controllers
                 StatusCodeResponse = 200,
                 Timezone = "GTM",
                 RequestURL = "www.",
-                UserAgents = new List<UserAgent>() { new UserAgent() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)"} },
+                UserAgents = new List<UserAgentViewModel>() { new UserAgentViewModel() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)" } },
                 UserIdentifier = "Mario"
             };
-            return Ok(new List<Log>() { log });
+            return Ok(new List<LogViewModel>() { log });
         }
 
         [Route("api/logs/{id}")]
         [HttpGet]
-        public async Task<ActionResult<Log>> Get([FromQuery] int id)
+        public async Task<ActionResult<LogViewModel>> Get([FromQuery] int id)
         {
             var rng = new Random();
-            var log = new Log()
+            var log = new LogViewModel()
             {
                 Id = 1,
                 IP = "IP 192.198",
@@ -64,7 +68,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
                 StatusCodeResponse = 200,
                 Timezone = "GMT",
                 RequestURL = "www.",
-                UserAgents = new List<UserAgent>() { new UserAgent() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)" } },
+                UserAgents = new List<UserAgentViewModel>() { new UserAgentViewModel() { Id = 1, Product = "Chrome", ProductVersion = "1.1", SystemInformation = "(Windows 64x)" } },
                 UserIdentifier = "Mario"
             };
             return Ok(log);
@@ -72,7 +76,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
 
         [Route("api/logs")]
         [HttpPost]
-        public async Task<ActionResult<Log>> Post([FromBody] Log log)
+        public async Task<ActionResult<LogViewModel>> Post([FromBody] LogViewModel log)
         {
             var asd = "";
             return Accepted(log);
@@ -81,7 +85,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
 
         [Route("api/logs/{id}")]
         [HttpPut]
-        public async Task<ActionResult<Log>> Put(int id, [FromBody] Log log)
+        public async Task<ActionResult<LogViewModel>> Put(int id, [FromBody] LogViewModel log)
         {
             if (id != log.Id)
             {
@@ -106,48 +110,14 @@ namespace TReuters.LogLoader.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> Batch([FromForm] IFormFile file)
         {
-            string lines = await ReadAsStringAsync(file);
-            return Ok(true);
+            var con = new PostgreConnectionFactory();
+            con.CreateConnection("");
+            var result = await _logAppService.InsertLogBatchFileAsync(file);
+            if (result.Success)
+                return Ok(true);
+            else
+                return Ok(false);
         }
-
-
-        private async Task<string> ReadAsStringAsync(IFormFile file)
-        {
-            var result = new StringBuilder();
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                while (reader.Peek() >= 0)
-                    result.AppendLine(await reader.ReadLineAsync());
-            }
-            return result.ToString();
-        }
-    }
-
-
-
-    public class Log
-    {
-        public int Id { get; set; }
-        public string IP { get; set; }
-        public string UserIdentifier { get; set; }
-        public DateTime RequestDate { get; set; }
-        public string Timezone { get; set; }
-        public string Method { get; set; }
-        public string RequestURL { get; set; }
-        public string Protocol { get; set; }
-        public string ProtocolVersion { get; set; }
-        public int StatusCodeResponse { get; set; }
-        public int Port { get; set; }
-        public string OriginUrl { get; set; }
-        public IEnumerable<UserAgent> UserAgents { get; set; }
-    }
-
-    public class UserAgent
-    {
-        public int Id { get; set; }
-        public string Product { get; set; }
-        public string ProductVersion { get; set; }
-        public string SystemInformation { get; set; }
     }
 }
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -12,6 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.11" />
 	  
 	  
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Data\TReuters.LogLoader.Infra.Data.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.IOC\TReuters.LogLoader.Infra.IOC.csproj" />
   </ItemGroup>
 
 

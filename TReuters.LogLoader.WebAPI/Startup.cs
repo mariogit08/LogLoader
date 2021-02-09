@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using TReuters.LogLoader.Infra.IOC;
 
 namespace TReuters.LogLoader.WebAPI
 {
@@ -22,6 +16,9 @@ namespace TReuters.LogLoader.WebAPI
         {
             Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseExceptionHandler(config =>
@@ -61,14 +58,14 @@ namespace TReuters.LogLoader.WebAPI
             {
                 endpoints.MapControllers();
             });
-
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
-        }
-        public IConfiguration Configuration { get; }
 
+            IOCBootstrapper.RegisterInstances(services);
+        }
     }
 }
