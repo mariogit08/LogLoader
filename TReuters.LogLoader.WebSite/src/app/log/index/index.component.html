@@ -1,0 +1,83 @@
+<div class="container">
+  <h1>Log loader</h1>
+
+  <a href="#" routerLink="/log/create/" class="btn btn-success">Create New Log</a>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="ip">IP:</label>
+      <input formControlName="ip" id="ip" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Start date:</label>
+      <input formControlName="startDate" id="startDate" type="datetime-local" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="finalDate">Final date:</label>
+      <input formControlName="finalDate" id="finalDate" type="datetime-local" class="form-control">
+    </div>
+
+    <!-- 
+    User Agent Fields
+    <div class="form-group">
+      <label for="ip">Product:</label>
+      <input formControlName="ip" id="ip" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="ip">Product version:</label>
+      <input formControlName="ip" id="ip" type="text" class="form-control">
+    </div> -->
+
+    <!-- <div class="form-group">
+      <label for="userAgent">Comment:</label>
+      <input formControlName="userAgent" id="userAgent" type="text" class="form-control">
+    </div> -->
+
+    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Search</button>
+  </form>
+
+  <table class="table table-bordered">
+    <tr>
+      <th>Id</th>
+      <th>Ip</th>
+      <th>User Identifier</th>
+      <th>Request Date</th>
+      <th>Timezone</th>
+      <th>Method</th>
+      <th>Request URL</th>
+      <th>Protocol</th>
+      <th>Protocol Version</th>
+      <th>Status Code Response</th>
+      <th>Port</th>
+      <th>Origin Url</th>
+      <th>User Agent</th>
+      <th width="220px">Action</th>
+    </tr>
+    <tr *ngFor="let log of logs">
+      <td>{{ log.logId }}</td>
+      <td>{{ log.ip }}</td>
+      <td>{{ log.userIdentifier }}</td>
+      <td>{{ log.requestDate }}</td>
+      <td>{{ log.timezone }}</td>
+      <td>{{ log.method }}</td>
+      <td>{{ log.requestURL }}</td>
+      <td>{{ log.protocol }}</td>
+      <td>{{ log.protocolVersion }}</td>
+      <td>{{ log.statusCodeResponse }}</td>
+      <td>{{ log.port }}</td>
+      <td>{{ log.originUrl }}</td>
+    <td>
+      {{concatUserAgents(log.userAgents)}}
+    </td>
+
+    <td>
+      <a href="#" [routerLink]="['/log/', log.logId, 'view']" class="btn btn-info">View</a>
+      <a href="#" [routerLink]="['/log/', log.logId, 'edit']" class="btn btn-primary">Edit</a>
+      <button type="button" (click)="deleteLog(log.logId)" class="btn btn-danger">Delete</button>
+    </td>
+    </tr>
+  </table>
+</div>

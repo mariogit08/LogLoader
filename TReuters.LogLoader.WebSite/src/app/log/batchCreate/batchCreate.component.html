@@ -1,0 +1,18 @@
+<div class="container">
+    <h1>Create New Log</h1>
+
+    <a href="#" routerLink="/log/index" class="btn btn-primary">Back</a>
+    <br><br><br>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div ng-show="showForm">
+            <div class="form-group">
+                <input  formControlName="batchFile" id="batchFile" name="batchFile" type="file" id="file"
+                    (change)="handleFileInput($event.target.files)">
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="batchFile === null">Submit</button>
+    </form>
+</div>

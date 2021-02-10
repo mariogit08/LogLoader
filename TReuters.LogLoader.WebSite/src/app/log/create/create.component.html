@@ -1,0 +1,132 @@
+<div class="container">
+
+    <h1>Create New Log</h1>
+
+    <a href="#" routerLink="/log/index" class="btn btn-primary">Back</a>
+    <br><br><br>
+    <form [formGroup]="form" class="form" (ngSubmit)="submit()">
+
+        <div>
+            <div class="form-group">
+                <label for="ip">IP:</label>
+                <input formControlName="ip" id="ip" type="text" class="form-control">
+                <div *ngIf="f.ip.touched && f.ip.invalid" class="alert alert-danger">
+                    <div *ngIf="f.ip.errors.required">IP is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="userIdentifier">User identifier:</label>
+                <input formControlName="userIdentifier" id="userIdentifier" type="text" class="form-control">
+                <div *ngIf="f.userIdentifier.touched && f.userIdentifier.invalid" class="alert alert-danger">
+                    <div *ngIf="f.userIdentifier.errors.required">User identifier is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requestDate">Request date:</label>
+                <input formControlName="requestDate" id="requestDate" type="datetime-local" class="form-control">
+                <div *ngIf="f.requestDate.touched && f.requestDate.invalid" class="alert alert-danger">
+                    <div *ngIf="f.requestDate.errors.required">Request date is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="timezone">Timezone</label>
+                <select formControlName="timezone" name="timezone" id="timezone" class="form-control">
+                    <option *ngFor="let opt of timezones" [value]="opt.value" >
+                        {{opt.value}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="method">Method:</label>
+                <input formControlName="method" id="method" type="text" class="form-control">
+                <div *ngIf="f.method.touched && f.method.invalid" class="alert alert-danger">
+                    <div *ngIf="f.method.errors.required">Method is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requestURL">Request URL:</label>
+                <input formControlName="requestURL" id="requestURL" type="text" class="form-control">
+                <div *ngIf="f.requestURL.touched && f.requestURL.invalid" class="alert alert-danger">
+                    <div *ngIf="f.requestURL.errors.required">Request URL is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="protocol">Protocol:</label>
+                <input formControlName="protocol" id="protocol" type="text" class="form-control">
+                <div *ngIf="f.protocol.touched && f.protocol.invalid" class="alert alert-danger">
+                    <div *ngIf="f.protocol.errors.required">Protocol is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="protocolVersion">Protocol version:</label>
+                <input formControlName="protocolVersion" id="protocolVersion" type="text" class="form-control">
+                <div *ngIf="f.protocolVersion.touched && f.protocolVersion.invalid" class="alert alert-danger">
+                    <div *ngIf="f.protocolVersion.errors.required">Protocol version is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="statusCodeResponse">Status Code Response:</label>
+                <input formControlName="statusCodeResponse" id="statusCodeResponse" type="number" class="form-control">
+                <div *ngIf="f.statusCodeResponse.touched && f.statusCodeResponse.invalid" class="alert alert-danger">
+                    <div *ngIf="f.statusCodeResponse.errors.required">Status Code Response is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="port">Port:</label>
+                <input formControlName="port" id="port" type="number" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="originUrl">Origin URL:</label>
+                <input formControlName="originUrl" id="originUrl" type="text" class="form-control">
+            </div>
+
+            <br><br>
+            <h5>User Agent Section: </h5>
+            <div class="form-group">
+                <label for="product">Product (User Agent):</label>
+                <input id="user" [(ngModel)]="userAgentAdd.product" [ngModelOptions]="{standalone: true}" type="text"
+                    class="form-control">
+
+                <label for="productVersion">Product version (User Agent):</label>
+                <input [(ngModel)]="userAgentAdd.productVersion" [ngModelOptions]="{standalone: true}"
+                    id="productVersion" type="number" class="form-control">
+
+                <label for="systemInformation">System information (User Agent):</label>
+                <input [(ngModel)]="userAgentAdd.systemInformation" [ngModelOptions]="{standalone: true}"
+                    id="systemInformation" type="text" class="form-control">
+            </div>
+            
+            <button type="button" (click)="addUserAgent()" [disabled]="!canAddAgent()" class="btn btn-primary">Add User
+                Agent:</button>
+                <br> <br> 
+            <table class="table table-bordered">
+                <tr>
+                    <th>Product:</th>
+                    <th>Product version:</th>
+                    <th>System Information:</th>
+                    <th width="220px">Action</th>
+                </tr>
+                <tr *ngFor="let agent of userAgents">
+                    <td>{{ agent.product }}</td>
+                    <td>{{ agent.productVersion }}</td>
+                    <td>{{ agent.systemInformation }}</td>
+                    <td>
+                        <button type="button" (click)="deleteAgent(agent)" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+    </form>
+    <br><br><br>
+</div>
