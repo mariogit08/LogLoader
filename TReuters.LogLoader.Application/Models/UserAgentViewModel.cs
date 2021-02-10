@@ -6,7 +6,15 @@ namespace TReuters.LogLoader.Application.Models
 {
     public class UserAgentViewModel
     {
-        public int Id { get; set; }
+        public UserAgentViewModel(long id, string product, string productVersion, string systemInformation)
+        {
+            Id = id;
+            Product = product;
+            ProductVersion = productVersion;
+            SystemInformation = systemInformation;
+        }
+
+        public long Id { get; set; }
         public string Product { get; set; }
         public string ProductVersion { get; set; }
         public string SystemInformation { get; set; }

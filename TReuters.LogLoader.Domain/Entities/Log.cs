@@ -5,10 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace TReuters.LogLoader.Domain.Entities
 {
-
     public class Log
     {
-        public int Id { get; set; }
+        public long? LogId { get; set; }
         private string iP;
         private DateTime requestDate;
         private string timezone;
@@ -16,7 +15,24 @@ namespace TReuters.LogLoader.Domain.Entities
         private string requestURL;
         private string protocol;
         private string protocolVersion;
-        private int statusCodeResponse;       
+        private int statusCodeResponse;
+
+        public Log(long logid, string ip, string useridentifier, DateTime requestdate, string timezone, string method, string requesturl, string protocol, string protocolversion, int statuscoderesponse, int port, string originurl, List<UserAgent> useragents)
+        {
+            LogId = logid;
+            IP = iP;
+            UserIdentifier = useridentifier;
+            RequestDate = requestDate;
+            Timezone = timezone;
+            Method = method;
+            RequestURL = requestURL;
+            Protocol = protocol;
+            ProtocolVersion = protocolVersion;
+            StatusCodeResponse = statusCodeResponse;
+            Port = port;
+            OriginUrl = originurl;
+            UserAgents = useragents;
+        }
 
         public Log(string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
         {
@@ -45,7 +61,29 @@ namespace TReuters.LogLoader.Domain.Entities
             Protocol = protocol;
             ProtocolVersion = protocolVersion;
             StatusCodeResponse = statusCodeResponse;
-        }     
+        }
+
+        public Log()
+        {
+
+        }
+        
+        //public Log(int logid, string ip, DateTime requestdate, string timezone, string method, string requesturl, string protocol, string protocolversion, int statuscoderesponse, string originurl, int port, string useridentifier, bool available)
+        //{
+        //    LogId = logid;
+        //    IP = ip;
+        //    UserIdentifier = useridentifier;            
+        //    RequestDate = requestdate;
+        //    Timezone = timezone;
+        //    Method = method;
+        //    RequestURL = requesturl;
+        //    Protocol = protocol;
+        //    ProtocolVersion = protocolversion;
+        //    StatusCodeResponse = statuscoderesponse;
+        //    Port = port;
+        //    OriginUrl = originurl;
+        //    Available = available;
+        //}
 
         public string IP
         {
@@ -143,11 +181,12 @@ namespace TReuters.LogLoader.Domain.Entities
         public int Port { get; set; }
         public string OriginUrl { get; set; }
         public List<UserAgent> UserAgents { get; set; } = new List<UserAgent>();
+        public bool Available { get; set; } = true;
 
         public override bool Equals(object obj)
         {
             return obj is Log log &&
-                   Id == log.Id &&
+                   LogId == log.LogId &&
                    IP == log.IP &&
                    UserIdentifier == log.UserIdentifier &&
                    RequestDate == log.RequestDate &&
@@ -165,7 +204,7 @@ namespace TReuters.LogLoader.Domain.Entities
         public override int GetHashCode()
         {
             HashCode hash = new HashCode();
-            hash.Add(Id);
+            hash.Add(LogId);
             hash.Add(iP);
             hash.Add(requestDate);
             hash.Add(timezone);

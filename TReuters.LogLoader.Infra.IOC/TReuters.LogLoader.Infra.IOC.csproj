@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TReuters.LogLoader.Application\TReuters.LogLoader.Application.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Data\TReuters.LogLoader.Infra.Data.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Service\TReuters.LogLoader.Infra.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,24 @@ namespace TReuters.LogLoader.Application.Models
 {
     public class LogViewModel
     {
-        public int Id { get; set; }
+        public LogViewModel(long logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgentViewModel> userAgents)
+        {
+            LogId = logId;
+            IP = iP;
+            UserIdentifier = userIdentifier;
+            RequestDate = requestDate;
+            Timezone = timezone;
+            Method = method;
+            RequestURL = requestURL;
+            Protocol = protocol;
+            ProtocolVersion = protocolVersion;
+            StatusCodeResponse = statusCodeResponse;
+            Port = port;
+            OriginUrl = originUrl;
+            UserAgents = userAgents;
+        }
+
+        public long LogId { get; set; }
         public string IP { get; set; }
         public string UserIdentifier { get; set; }
         public DateTime RequestDate { get; set; }
@@ -18,8 +35,6 @@ namespace TReuters.LogLoader.Application.Models
         public int StatusCodeResponse { get; set; }
         public int Port { get; set; }
         public string OriginUrl { get; set; }
-        public IEnumerable<UserAgentViewModel> UserAgents { get; set; }
+        public List<UserAgentViewModel> UserAgents { get; set; }
     }
-
-    
 }

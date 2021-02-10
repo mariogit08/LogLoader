@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TReuters.LogLoader.Domain\TReuters.LogLoader.Domain.csproj" />
     <ProjectReference Include="..\TReuters.LogLoader.Infra.Crosscutting\TReuters.LogLoader.Infra.Crosscutting.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Service\TReuters.LogLoader.Infra.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using System;
+using TReuters.LogLoader.Domain.Interfaces;
+using TReuters.LogLoader.Infra.Data.UnitOfWork;
 using TReuters.LogLoader.Infra.IOC.Modules;
 
 namespace TReuters.LogLoader.Infra.IOC
@@ -13,8 +16,6 @@ namespace TReuters.LogLoader.Infra.IOC
             services.RegisterDomainServices();
             services.RegisterServices();
             services.RegisterRepositories();
-            //services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
-            //services.AddTransient<IDbContext, DbContext>();
         }
     }
 }

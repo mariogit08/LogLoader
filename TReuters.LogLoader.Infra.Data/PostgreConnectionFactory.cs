@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Microsoft.Extensions.Configuration;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,16 +9,21 @@ namespace TReuters.LogLoader.Infra.Data
 {
     public class PostgreConnectionFactory : IDbConnectionFactory
     {
-        public IDbConnection CreateConnection(string connectionString)
+        private readonly IConfiguration configuration;
+
+        public PostgreConnectionFactory(IConfiguration configuration)
         {
-            var cs = @"Host=""postgres://wkogadwc:8gZPLt0eSdse71rykxUvPr0td1a94h1i@motty.db.elephantsql.com:5432/wkogadwc"";Username = mylogin; Password = mypass; Database = mydatabase";
+            this.configuration = configuration;
+        }
 
-
-
-            var con = new NpgsqlConnection();
-            con.Host = 
-            con.Open();
-            return con;            
+        public IDbConnection CreateConnection(string connectionStringName)
+        {
+            var connectionString = "Host=localhost;Port=5432;Username=postgres;Password=123;Database=LogLoader;";
+            var connection2 = configuration.GetSection($"ConnectionStrings:{connectionStringName}").Value;
+            var connection = new NpgsqlConnection(configuration.GetSection($"ConnectionStrings:{connectionStringName}").Value);
+            
+            connection.Open();
+            return connection;
         }
     }
 }
