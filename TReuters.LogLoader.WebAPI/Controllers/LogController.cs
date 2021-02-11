@@ -38,6 +38,25 @@ namespace TReuters.LogLoader.WebAPI.Controllers
             return Ok(result);
         }
 
+        [Route("api/logs/filter")]
+        [HttpGet]
+        public async Task<ActionResult<LogViewModel>> Get([FromQuery] LogFilterParameters lf)
+        {
+            var result = await _logAppService.GetByFilter(lf.ip, lf.userAgentProduct, lf.fromHour, lf.fromMinute, lf.toHour, lf.toMinute);
+            return Ok(result);
+        }
+
+        public class LogFilterParameters
+        {
+            public string ip { get; set; }
+            public string userAgentProduct { get; set; }
+            public string fromHour { get; set; }
+            public string fromMinute { get; set; }
+            public string toHour { get; set; }
+            public string toMinute { get; set; }
+
+        }
+
         [Route("api/logs")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] LogViewModel log)
@@ -56,16 +75,24 @@ namespace TReuters.LogLoader.WebAPI.Controllers
                 return BadRequest();
             }
 
-            var result = _logAppService.UpdateLog(log);
-            return Accepted(result);
+            try
+            {
+                var result = _logAppService.UpdateLog(log);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return Accepted(new { });
         }
 
 
         [Route("api/logs/{id}")]
         [HttpDelete]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var result = _logAppService.DeleteLog(id);
+            var result = await _logAppService.DeleteLog(id);
             return Ok(result);
         }
 

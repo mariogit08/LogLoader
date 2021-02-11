@@ -75,7 +75,7 @@ namespace TReuters.LogLoader.Application
         {
             try
             {
-                var viewModelLogs = (await _DBContext.Log.GetAll()).Select(a => a.ToViewModel());
+                var viewModelLogs = (await _DBContext.Log.GetAll()).Select(a => a.ToViewModel()).Take(100);
                 return Result.Ok(viewModelLogs);
             }
             catch (Exception e)
@@ -91,17 +91,23 @@ namespace TReuters.LogLoader.Application
             return Result.Ok(viewModelLogs);
         }
 
-        public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, int? fromHour, int? fromMinute, int? toHour, int? toMinute)
+        public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, string fromHour, string fromMinute, string toHour, string toMinute)
         {
             var viewModelLogs = (await _DBContext.Log.GetByFilter
                                 (ip,
                                 userAgentProduct,
-                                fromHour,
-                                fromMinute,
-                                toHour,
-                                toMinute)).Select(a => a.ToViewModel());
+                                TryParseNullable(fromHour),
+                                TryParseNullable(fromMinute),
+                                TryParseNullable(toHour),
+                                TryParseNullable(toMinute))).Select(a => a.ToViewModel());
 
             return Result.Ok(viewModelLogs);
+        }
+
+        public int? TryParseNullable(string val)
+        {
+            int outValue;
+            return int.TryParse(val, out outValue) ? (int?)outValue : null;
         }
     }
 }

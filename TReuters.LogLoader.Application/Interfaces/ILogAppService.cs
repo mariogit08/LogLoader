@@ -11,7 +11,7 @@ namespace TReuters.LogLoader.Application.Interfaces
     public interface ILogAppService
     {
         Task<Result<IEnumerable<LogViewModel>>> GetAllLogs();
-        Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, int? fromHour, int? fromMinute, int? toHour, int? toMinute);
+        Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, string fromHour, string fromMinute, string toHour, string toMinute);
         Task<Result> InsertLogBatchFileAsync(IFormFile file);
         Task<Result> UpdateLog(LogViewModel logViewModel);
         Task<Result<LogViewModel>> GetById(int logId);

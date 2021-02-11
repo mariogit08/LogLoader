@@ -20,15 +20,15 @@ namespace TReuters.LogLoader.Domain.Entities
         public Log(long logid, string ip, string useridentifier, DateTime requestdate, string timezone, string method, string requesturl, string protocol, string protocolversion, int statuscoderesponse, int port, string originurl, List<UserAgent> useragents)
         {
             LogId = logid;
-            IP = iP;
+            IP = ip;
             UserIdentifier = useridentifier;
-            RequestDate = requestDate;
+            RequestDate = requestdate;
             Timezone = timezone;
             Method = method;
-            RequestURL = requestURL;
+            RequestURL = requesturl;
             Protocol = protocol;
-            ProtocolVersion = protocolVersion;
-            StatusCodeResponse = statusCodeResponse;
+            ProtocolVersion = protocolversion;
+            StatusCodeResponse = statuscoderesponse;
             Port = port;
             OriginUrl = originurl;
             UserAgents = useragents;

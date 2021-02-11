@@ -74,25 +74,38 @@ namespace TReuters.LogLoader.Domain.DomainServices
 
         public async Task<bool> Update(Log log)
         {
+            Func<Log, Task<bool>> logUpdate = async (Log log) => await _dBContext.Log.Update(log);
+            Func<Log, Task<bool>> userAgentReplacement = async (Log log) => await ReplaceUserAgents(log);
+
             try
             {
-                var resultUpdate = await _dBContext.Log.Update(log);
-                if (resultUpdate)
-                    return await ReplaceUserAgents(log);
+                if (await logUpdate.Invoke(log) && await userAgentReplacement.Invoke(log))
+                {
+                    _dBContext.Commit();
+                    return true;
+                }
+                else
+                {
+                    _dBContext.Rollback();
+                    return false;
+                }
             }
             catch
             {
+                _dBContext.Rollback();
                 return false;
             }
-            _dBContext.Commit();
-            return true;
         }
 
         private async Task<bool> ReplaceUserAgents(Log log)
         {
-            await _dBContext.UserAgent.DeleteByLogId(log.LogId.Value);
+            var resultDelete = await _dBContext.UserAgent.DeleteByLogId(log.LogId.Value);
+            if (resultDelete == false)
+                return false;
+
             foreach (var userAgent in log.UserAgents)
             {
+                userAgent.LogId = log.LogId.Value;
                 var resultId = await _dBContext.UserAgent.Insert(userAgent);
                 if (resultId <= 0)
                     return false;
