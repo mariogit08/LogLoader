@@ -46,31 +46,31 @@ export class CreateComponent implements OnInit {
   }
 
   get timezones() {
-    let timezones = [      
-          {   value: "GMT+1:00", selected: false }
-          , { value: "GMT+2:00", selected: false }
-          , { value: "GMT+3:00", selected: false }
-          , { value: "GMT+4:00", selected: false }
-          , { value: "GMT+5:00", selected: false }
-          , { value: "GMT+6:00", selected: false }
-          , { value: "GMT+7:00", selected: false }
-          , { value: "GMT+8:00", selected: false }
-          , { value: "GMT+9:00", selected: false }
-          , { value: "GMT+10:00", selected: false }
-          , { value: "GMT+11:00", selected: false }
-          , { value: "GMT+12:00", selected: false }
-          , { value: "GMT-1:00", selected: false }
-          , { value: "GMT-2:00", selected: false }
-          , { value: "GMT-3:00", selected: false }
-          , { value: "GMT-4:00", selected: false }
-          , { value: "GMT-5:00", selected: false }
-          , { value: "GMT-6:00", selected: false }
-          , { value: "GMT-7:00", selected: false }
-          , { value: "GMT-8:00", selected: false }
-          , { value: "GMT-9:00", selected: false }
-          , { value: "GMT-10:00", selected: false }
-          , { value: "GMT-11:00", selected: false }
-          , { value: "GMT-12:00", selected: false }]
+    let timezones = [
+      { key:"0+100",value: "GMT+1:00", selected: false }
+      , { key:"0+200",value: "GMT+2:00", selected: false } 
+      , { key:"0+300",value: "GMT+3:00", selected: false } 
+      , { key:"0+400",value: "GMT+4:00", selected: false } 
+      , { key:"0+500",value: "GMT+5:00", selected: false } 
+      , { key:"0+600",value: "GMT+6:00", selected: false }
+      , { key:"0+700",value: "GMT+7:00", selected: false } 
+      , { key:"0+800",value: "GMT+8:00", selected: false }
+      , { key:"0+900",value: "GMT+9:00", selected: false }
+      , { key:"+1000",value: "GMT+10:00", selected: false } 
+      , { key:"+1100",value: "GMT+11:00", selected: false } 
+      , { key:"+1200",value: "GMT+12:00", selected: false } 
+      , { key:"-0100",value: "GMT-1:00", selected: false }
+      , { key:"-0200",value: "GMT-2:00", selected: false } 
+      , { key:"-0300",value: "GMT-3:00", selected: false } 
+      , { key:"-0400",value: "GMT-4:00", selected: false } 
+      , { key:"-0500",value: "GMT-5:00", selected: false } 
+      , { key:"-0600",value: "GMT-6:00", selected: false }
+      , { key:"-0700",value: "GMT-7:00", selected: false } 
+      , { key:"-0800",value: "GMT-8:00", selected: false }
+      , { key:"-0900",value: "GMT-9:00", selected: false }
+      , { key:"-1000",value: "GMT-10:00", selected: false } 
+      , { key:"-1100",value: "GMT-11:00", selected: false } 
+      , { key:"-1200",value: "GMT-12:00", selected: false } ]
 
     return timezones;
   }

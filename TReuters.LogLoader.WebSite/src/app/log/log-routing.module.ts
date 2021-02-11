@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'log/create', component: CreateComponent },
   { path: 'log/:logId/edit', component: EditComponent },
   { path: 'log/batch', component: BatchCreateComponent },
+  { path: '**', redirectTo: 'log/index', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -25,20 +25,17 @@
         <div class="form-group">
             <label for="requestDate">Request date:</label>
             <input id="requestDate" type="datetime-local" class="form-control" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="date">
+                [(ngModel)]="dateString">
             <div *ngIf="f.requestDate.touched && f.requestDate.invalid" class="alert alert-danger">
                 <div *ngIf="f.requestDate.errors.required">Request date is required.</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="timezone">Timezone</label>
-            <select name="timezone" id="timezone" class="form-control" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="log.timezone">
-                <option *ngFor="let opt of timezones" [value]="opt.key" [selected]="opt.selected == true">{{opt.value}}
-                </option>
+            <select [ngModelOptions]="{standalone: true}" [(ngModel)]="log.timezone" class="form-control">
+                <option *ngFor="let zone of timezones" [ngValue]="zone.key">{{ zone.value }}</option>
             </select>
-        </div>
+        </div>        
 
         <div class="form-group">
             <label for="method">Method:</label>
