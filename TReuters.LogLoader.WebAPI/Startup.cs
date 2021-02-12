@@ -39,6 +39,15 @@ namespace TReuters.LogLoader.WebAPI
                             ErrorMessage = ex.Message
                         }.ToString()); ; //ToString() is overridden to Serialize object
                     }
+                    else
+                    {
+                        var ex = error.Error;
+                        await context.Response.WriteAsync(new
+                        {
+                            StatusCode = StatusCodes.Status500InternalServerError,
+                            ErrorMessage = "An application error has occurred, for more information contact the support team."
+                        }.ToString()); ; //ToString() is overridden to Serialize object
+                    }
                 });
             });
 
@@ -97,8 +106,8 @@ namespace TReuters.LogLoader.WebAPI
                     TermsOfService = new Uri("https://github.com/mariogit08"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Mário Chaves",
-                        Email = string.Empty,
+                        Name = "MÃ¡rio Chaves",
+                        Email = "mario.chaves@live.com",
                         Url = new Uri("https://www.linkedin.com/in/mariodeveloper/"),
                     },
                     License = new OpenApiLicense
