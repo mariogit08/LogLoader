@@ -58,12 +58,12 @@ namespace TReuters.LogLoader.Infra.Service
 
             if (portOriginUrlUserAgentMatch.Success)
             {
-                var port = portRegex.Match(portOriginUrlUserAgentMatch.Value)?.Groups["port"]?.Value;
+                var portValue = portRegex.Match(portOriginUrlUserAgentMatch.Value)?.Groups["port"]?.Value;
                 var originUrl = originUrlRegex.Match(portOriginUrlUserAgentMatch.Value)?.Groups["originUrl"]?.Value;
 
                 var userAgents = portOriginUrlUserAgentMatch.Value.ExtractUserAgents();
 
-                int.TryParse(port, out int portInt);
+                int.TryParse(portValue, out int port);
                 var completedLog = new Log(log.IP,
                                            log.UserIdentifier,
                                            log.RequestDate,
@@ -73,7 +73,7 @@ namespace TReuters.LogLoader.Infra.Service
                                            log.Protocol,
                                            log.ProtocolVersion,
                                            log.StatusCodeResponse,
-                                           portInt,
+                                           port,
                                            originUrl,
                                            userAgents);
                 return completedLog;

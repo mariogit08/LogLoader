@@ -7,72 +7,37 @@ namespace TReuters.LogLoader.Domain.Entities
 {
     public class Log
     {
-        public long? LogId { get; private set; }
-        public string IP { get; private set; }
-        public string UserIdentifier { get; private set; }
-        public DateTime RequestDate { get; private set; }
-        public string Timezone { get; private set; }
-        public string Method { get; private set; }
-        public string RequestURL { get; private set; }
-        public string Protocol { get; private set; }
-        public string ProtocolVersion { get; private set; }
-        public int StatusCodeResponse { get; private set; }
-        public int Port { get; private set; }
-        public string OriginUrl { get; private set; }
-        public List<UserAgent> UserAgents { get; private set; } = new List<UserAgent>();
-        public bool Available { get; private set; } = true;
-
+        private long? logId;
+        private string iP;
+        private string userIdentifier;
+        private DateTime requestDate;
+        private string timezone;
+        private string requestURL;
+        private string protocol;
+        private string protocolVersion;
+        private int statusCodeResponse;
+        private int port;
+        private string originUrl;
+        private List<UserAgent> userAgents = new List<UserAgent>();
+        private bool available = true;
+        
 
         public Log()
         {
 
         }
-        
-
-        public Log(string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
-        {
-            SetIP(iP);
-            SetUserIdentifier(userIdentifier);
-            SetRequestDate(requestDate);
-            SetTimezone(timezone);
-            SetMethod(method);
-            SetRequestURL(requestURL);
-            SetProtocol(protocol);
-            SetProtocolVersion(protocolVersion);
-            SetStatusCodeResponse(statusCodeResponse);
-            SetPort(port);
-            SetOriginUrl(originUrl);
-            SetUserAgents(userAgents);
-        }
-
-        public Log(long logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
-        {
-            SetLogId(logId);
-            SetIP(iP);
-            SetUserIdentifier(userIdentifier);
-            SetRequestDate(requestDate);
-            SetTimezone(timezone);
-            SetMethod(method);
-            SetRequestURL(requestURL);
-            SetProtocol(protocol);
-            SetProtocolVersion(protocolVersion);
-            SetStatusCodeResponse(statusCodeResponse);
-            SetPort(port);
-            SetOriginUrl(originUrl);
-            SetUserAgents(userAgents);
-        }
 
         public Log(string ip, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse)
         {
-            SetIP(ip);
-            SetUserIdentifier(userIdentifier);
-            SetRequestDate(requestDate);
-            SetTimezone(timezone);
-            SetMethod(method);
-            SetRequestURL(requestURL);
-            SetProtocol(protocol);
-            SetProtocolVersion(protocolVersion);
-            SetStatusCodeResponse(statusCodeResponse);                                
+            IP = ip;
+            UserIdentifier = userIdentifier;
+            RequestDate = requestDate;
+            Timezone = timezone;
+            Method = method;
+            RequestURL = requestURL;
+            Protocol = protocol;
+            ProtocolVersion = protocolVersion;
+            StatusCodeResponse = statusCodeResponse;
         }
 
         private Log(long? logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents, bool available)
@@ -93,6 +58,118 @@ namespace TReuters.LogLoader.Domain.Entities
             Available = available;
         }
 
+        public Log(string ip, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents) :
+                   this(ip, userIdentifier, requestDate, timezone, method, requestURL, protocol, protocolVersion, statusCodeResponse)
+        {
+            Port = port;
+            OriginUrl = originUrl;
+            UserAgents = userAgents;
+        }
+
+        public Log(long logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
+        {
+            LogId = logId;
+            IP = iP;
+            UserIdentifier = userIdentifier;
+            RequestDate = requestDate;
+            Timezone = timezone;
+            Method = method;
+            RequestURL = requestURL;
+            Protocol = protocol;
+            ProtocolVersion = protocolVersion;
+            StatusCodeResponse = statusCodeResponse;
+            Port = port;
+            OriginUrl = originUrl;
+            UserAgents = userAgents;
+        }
+        public long? LogId { get => logId; set => logId = value; }
+
+        public string IP
+        {
+            get => iP;
+            private set
+            {
+                var validIP = Regex.IsMatch(value, @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                if (validIP)
+                    iP = value;
+                else
+                    throw new ArgumentException("Invalid IP");
+            }
+        }
+        public string UserIdentifier
+        {
+            get => userIdentifier; private set
+            {
+                if (value == null)
+                    throw new ArgumentException("Timezone cannot be null");
+
+                userIdentifier = value;
+            }
+        }
+        public DateTime RequestDate
+        {
+            get => requestDate; private set
+            {
+                DateTime.TryParse("1970-01-01 08:00:00", out DateTime requestDateOut);
+                if (value.CompareTo(requestDateOut) <= 0)
+                    throw new ArgumentException("set a valid date greater than 1970-01-01 08:00:00");
+
+                requestDate = value;
+            }
+        }
+        public string Timezone
+        {
+            get => timezone; private set
+            {
+                if (value == null)
+                    throw new ArgumentException("Timezone cannot be null");
+                timezone = value;
+            }
+        }
+        public string Method { get; private set; }
+        public string RequestURL
+        {
+            get => requestURL; private set
+            {
+                if (value == null)
+                    throw new ArgumentException("RequestURL cannot be null");
+
+                requestURL = value;
+            }
+        }
+        public string Protocol
+        {
+            get => protocol; private set
+            {
+                if (value == null)
+                    throw new ArgumentException("Protocol cannot be null");
+                protocol = value;
+            }
+        }
+        public string ProtocolVersion
+        {
+            get => protocolVersion; private set
+            {
+                if (value == null)
+                    throw new ArgumentException("ProtocolVersion cannot be null");
+
+                protocolVersion = value;
+            }
+        }
+        public int StatusCodeResponse
+        {
+            get => statusCodeResponse; private set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("StatusCode cannot be negative a number");
+                statusCodeResponse = value;
+            }
+        }
+        public int Port { get => port; private set => port = value; }
+        public string OriginUrl { get => originUrl; private set => originUrl = value; }
+        public List<UserAgent> UserAgents { get => userAgents; private set => userAgents = value; }
+        public bool Available { get => available; private set => available = value; }
+
         public Log SetLogId(long? logId)
         {
             return Clone(logId: logId);
@@ -100,35 +177,21 @@ namespace TReuters.LogLoader.Domain.Entities
 
         public Log SetIP(string ip)
         {
-            var validIP = Regex.IsMatch(ip, @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-            if (validIP)
-                return Clone(iP: ip);
-            else
-                throw new ArgumentException("Invalid IP");
-
+            return Clone(iP: ip);
         }
 
         public Log SetUserIdentifier(string userIdentifier)
         {
-            if (userIdentifier == null)
-                throw new ArgumentException("Timezone cannot be null");
-
             return Clone(userIdentifier: userIdentifier);
         }
 
         public Log SetRequestDate(DateTime requestDate)
         {
-            DateTime.TryParse("1970-01-01 08:00:00", out DateTime requestDateOut);
-            if (requestDate.CompareTo(requestDateOut) <= 0)
-                throw new ArgumentException("set a valid date greater than 1970-01-01 08:00:00");
-
             return Clone(requestDate: requestDate);
         }
 
         public Log SetTimezone(string timezone)
         {
-            if (timezone == null)
-                throw new ArgumentException("Timezone cannot be null");
             return Clone(timezone: timezone);
         }
 
@@ -140,32 +203,21 @@ namespace TReuters.LogLoader.Domain.Entities
 
         public Log SetRequestURL(string requestURL)
         {
-            if (requestURL == null)
-                throw new ArgumentException("RequestURL cannot be null");
-
             return Clone(requestURL: requestURL);
         }
 
         public Log SetProtocol(string protocol)
         {
-            if (protocol == null)
-                throw new ArgumentException("Protocol cannot be null");
-
             return Clone(protocol: protocol);
         }
 
         public Log SetProtocolVersion(string protocolVersion)
         {
-            if (protocolVersion == null)
-                throw new ArgumentException("ProtocolVersion cannot be null");
             return Clone(protocolVersion: protocolVersion);
         }
 
         public Log SetStatusCodeResponse(int statusCodeResponse)
         {
-            if (statusCodeResponse <= 0)
-                throw new ArgumentException("StatusCode cannot be negative a number");
-
             return Clone(statusCodeResponse: statusCodeResponse);
         }
 

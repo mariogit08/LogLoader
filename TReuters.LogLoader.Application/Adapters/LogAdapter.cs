@@ -32,7 +32,7 @@ namespace TReuters.LogLoader.Application.Adapters
 
         public static Log ToDomainModel(this LogViewModel log)
         {
-            var userAgentsViewModel = log.UserAgents.Select(a => a.ToDomainModel()).ToList();
+            var userAgents = log.UserAgents.Select(a => a.ToDomainModel()).ToList();
             return new Log(log.LogId,
                            log.IP,
                            log.UserIdentifier,
@@ -45,7 +45,7 @@ namespace TReuters.LogLoader.Application.Adapters
                            log.StatusCodeResponse,
                            log.Port,
                            log.OriginUrl,
-                           userAgentsViewModel);
+                           userAgents);
         }
     }
 }

@@ -87,7 +87,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> PostBatch([FromForm] IFormFile file)
         {
-            if (file == null || file.GetExtension() != ".txt")
+            if (file == null || (file.GetExtension() != ".log" && file.GetExtension() != ".txt"))
                 return BadRequest();
 
 

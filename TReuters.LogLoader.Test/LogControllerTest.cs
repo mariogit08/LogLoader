@@ -52,7 +52,6 @@ namespace TReuters.LogLoader
 
         
 
-        #region GetById
 
         [Test]
         public void GetLogByIdShouldReturnOkResultWhenInputExistentId()
@@ -90,22 +89,21 @@ namespace TReuters.LogLoader
 
             Assert.IsInstanceOf<BadRequestResult>(result.Result);
         }
-        #endregion
-
+ 
         [TestCase("TReuters.pdf")]
         [TestCase("TReuters.jpg")]
         [TestCase("TReuters.html")]
         [TestCase("TReuters.bat")]
-        public void ShouldReturnsBadRequestWhenIsNotTxtFile(string fileName)
+        public void PostBachShouldReturnsBadRequestWhenInputIsNotTxtFile(string fileName)
         {
             var fileMock = new Mock<IFormFile>();
             fileMock.Setup(_ => _.FileName).Returns(fileName);
             var result = _logController.PostBatch(fileMock.Object).Result;
             Assert.IsInstanceOf<BadRequestResult>(result.Result);
         }
-
+        
         [Test]
-        public void ShouldReturnsBadRequestWhenFileIsNull()
+        public void PostBachShouldReturnsBadRequestWhenFileIsNull()
         {
             var result = _logController.PostBatch(null).Result;
             Assert.IsInstanceOf<BadRequestResult>(result.Result);

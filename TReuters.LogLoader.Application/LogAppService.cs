@@ -43,12 +43,24 @@ namespace TReuters.LogLoader.Application
 
         public async Task<Result> InsertLog(LogViewModel logViewModel)
         {
-            var log = logViewModel.ToDomainModel();
-            var result = await _logDomainService.Insert(log);
-            if (result == true)
-                return Result.Ok();
-            else
+            try
+            {
+                var log = logViewModel.ToDomainModel();
+                var result = await _logDomainService.Insert(log);
+                if (result == true)
+                    return Result.Ok();
+                else
+                    return Result.Fail("An error has ocurred, was not possible update log");
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch
+            {
                 return Result.Fail("An error has ocurred, was not possible update log");
+            }
+            
         }
 
         public async Task<Result> UpdateLog(LogViewModel logViewModel)

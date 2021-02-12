@@ -6,6 +6,7 @@ namespace TReuters.LogLoader.Domain.Entities
 {
     public class UserAgent
     {
+        public UserAgent() { }
         public UserAgent(string product, string productVersion, string systemInformation)
         {
             Product = product;
