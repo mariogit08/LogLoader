@@ -1,0 +1,102 @@
+
+<div class="container">
+  <div class="d-flex justify-content-start"></div>
+  <h1>Log loader</h1>
+
+  <a href="#" routerLink="/log/create/" class="btn btn-success">Create by form</a>
+  &nbsp;&nbsp;
+  <a href="#" routerLink="/log/batch/" class="btn btn-primary">Create by batch file</a>
+  <br><br>
+  <form [formGroup]="form"  (ngSubmit)="submit()">
+    <div class="row">
+      <div class="col">
+        <input id="ip" placeholder="IP" type="text" class="form-control" [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="logFilter.ip">
+
+      </div>
+      <div class="col">
+        <input placeholder="User Agent Name" id="userAgentProduct" type="text" class="form-control"
+          [ngModelOptions]="{standalone: true}" [(ngModel)]="logFilter.userAgentProduct">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <input placeholder="From hour" id="fromHour" type="number" min="0" max="23" class="form-control" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="logFilter.fromHour">
+
+      </div>
+      <div class="col">
+        <input placeholder="From minute" id="fromMinute" type="number" min="0" max="59" class="form-control" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="logFilter.fromMinute">
+      </div>
+    </div>   
+    <br>
+    <div class="row">
+      <div class="col">
+        <input placeholder="To hour" id="toHour" type="number" min="0" max="23" class="form-control" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="logFilter.toHour">
+      </div>
+      <div class="col">
+        <input placeholder="To minute"  id="toMinute" type="number" min="0" max="59"  class="form-control" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="logFilter.toMinute">
+      </div>
+    </div>
+    <br>    
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-info" type="submit" [disabled]="!form.valid">Filter</button>
+        &nbsp;&nbsp;
+        <button (click)="getAll()" class="btn btn-outline-dark" [disabled]="!form.valid">Get all</button>
+      </div>      
+    </div>
+    <br><br>
+  </form>
+  
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered table-striped text-center">
+    <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Ip</th>
+      <th>User Identifier</th>
+      <th>Request Date</th>
+      <th>Timezone</th>
+      <th>Method</th>
+      <th>Request URL</th>
+      <th>Protocol</th>
+      <th>Protocol Version</th>
+      <th>Status Code Response</th>
+      <th>Port</th>
+      <th>Origin Url</th>
+      <th>User Agent</th>
+      <th width="220px">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <th scope="row">{{ log.logId }}</th>      
+      <td>{{ log.ip }}</td>
+      <td>{{ log.userIdentifier }}</td>
+      <td>{{ log.requestDate }}</td>
+      <td>{{ log.timezone }}</td>
+      <td>{{ log.method }}</td>
+      <td>{{ log.requestURL }}</td>
+      <td>{{ log.protocol }}</td>
+      <td>{{ log.protocolVersion }}</td>
+      <td>{{ log.statusCodeResponse }}</td>
+      <td>{{ log.port }}</td>
+      <td>{{ log.originUrl }}</td>
+      <td>
+        {{concatUserAgents(log.userAgents)}}
+      </td>
+      <td>
+        <a href="#" [routerLink]="['/log/', log.logId, 'view']" class="btn btn-info">View</a>
+        <a href="#" [routerLink]="['/log/', log.logId, 'edit']" class="btn btn-primary">Edit</a>
+        <button type="button" (click)="deleteLog(log.logId)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</div>
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+    <h1>View Log</h1>
+
+    <a href="#" routerLink="/log/index" class="btn btn-primary">Back</a>
+    <br />
+
+    <div>
+        <strong>Id</strong>
+        <p>{{ log.logId }}</p>
+    </div>
+
+    <div>
+        <strong>IP</strong>
+        <p>{{ log.ip }}</p>
+    </div>
+
+
+    <div>
+        <strong>User identifier</strong>
+        <p>{{ log.userIdentifier }}</p>
+    </div>
+
+
+    <div>
+        <strong>Request Date</strong>
+        <p>{{ log.requestDate }}</p>
+    </div>
+
+
+    <div>
+        <strong>Timezone</strong>
+        <p>{{ log.timezone }}</p>
+    </div>
+
+
+    <div>
+        <strong>Method</strong>
+        <p>{{ log.method }}</p>
+    </div>
+
+
+    <div>
+        <strong>Request URL</strong>
+        <p>{{ log.requestURL }}</p>
+    </div>
+
+
+    <div>
+        <strong>Protocol</strong>
+        <p>{{ log.protocol }}</p>
+    </div>
+
+    <div>
+        <strong>Protocol version</strong>
+        <p>{{ log.protocolVersion }}</p>
+    </div>
+
+    <div>
+        <strong>Status code response</strong>
+        <p>{{ log.statusCodeResponse }}</p>
+    </div>
+
+    <div>
+        <strong>Port</strong>
+        <p>{{ log.port }}</p>
+    </div>
+
+    <div>
+        <strong>Origin Url</strong>
+        <p>{{ log.originUrl }}</p>
+    </div>
+
+    <div>
+        <strong>User Agents</strong>
+        <p> {{concatUserAgents(log.userAgents)}}</p>
+    </div>
+</div>

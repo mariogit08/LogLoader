@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TReuters.LogLoader.Application\TReuters.LogLoader.Application.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Data\TReuters.LogLoader.Infra.Data.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Service\TReuters.LogLoader.Infra.Service.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TReuters.LogLoader.Domain\TReuters.LogLoader.Domain.csproj" />
+    <ProjectReference Include="..\TReuters.LogLoader.Infra.Crosscutting\TReuters.LogLoader.Infra.Crosscutting.csproj" />
+  </ItemGroup>
+
+</Project>

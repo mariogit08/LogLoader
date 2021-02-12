@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using TReuters.LogLoader.Infra.IOC;
 
 namespace TReuters.LogLoader.WebAPI
 {
@@ -22,6 +18,9 @@ namespace TReuters.LogLoader.WebAPI
         {
             Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseExceptionHandler(config =>
@@ -39,7 +38,16 @@ namespace TReuters.LogLoader.WebAPI
                             StatusCode = StatusCodes.Status500InternalServerError,
                             ErrorMessage = ex.Message
                         }.ToString()); ; //ToString() is overridden to Serialize object
-                }
+                    }
+                    else
+                    {
+                        var ex = error.Error;
+                        await context.Response.WriteAsync(new
+                        {
+                            StatusCode = StatusCodes.Status500InternalServerError,
+                            ErrorMessage = "An application error has occurred, for more information contact the support team."
+                        }.ToString()); ; //ToString() is overridden to Serialize object
+                    }
                 });
             });
 
@@ -62,13 +70,53 @@ namespace TReuters.LogLoader.WebAPI
                 endpoints.MapControllers();
             });
 
+            AddSwaggerUI(app);
+
         }
+
+        private static void AddSwaggerUI(IApplicationBuilder app)
+        {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
-        }
-        public IConfiguration Configuration { get; }
+            ConfigSwaggerAPIInfo(services);
 
+            IOCBootstrapper.RegisterAllIOCModules(services);
+        }
+
+        private static void ConfigSwaggerAPIInfo(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "LogLoader API",
+                    Description = "A REST ASP.NET Core WebAPI exposing LogLoader Features",
+                    TermsOfService = new Uri("https://github.com/mariogit08"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Mário Chaves",
+                        Email = "mario.chaves@live.com",
+                        Url = new Uri("https://www.linkedin.com/in/mariodeveloper/"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://github.com/mariogit08"),
+                    }
+                });
+            });
+        }
     }
 }
