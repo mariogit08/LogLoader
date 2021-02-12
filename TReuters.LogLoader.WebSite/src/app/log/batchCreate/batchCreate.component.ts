@@ -3,6 +3,7 @@ import { LogService } from '../log.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
+import { NotificationService } from 'src/app/notification.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class BatchCreateComponent implements OnInit {
   
   constructor(
     public logService: LogService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) { }
   title: string;
 
@@ -45,10 +47,10 @@ export class BatchCreateComponent implements OnInit {
     }
     
     this.logService.createByFile(this._batchFile).subscribe(res => {
-      console.log('Log created successfully!');
-      this.router.navigateByUrl('log/index');
-      
+      this.notificationService.showSuccess("Log created successfully!", "TReuters.LogLoader")      
+      // this.router.navigateByUrl('log/index');      
     }, error => {
+      this.notificationService.showError("Error cannot create logs", "TReuters.LogLoader")      
       console.log(error);
     });
   }
