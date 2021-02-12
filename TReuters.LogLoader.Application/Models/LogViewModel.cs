@@ -6,6 +6,10 @@ namespace TReuters.LogLoader.Application.Models
 {
     public class LogViewModel
     {
+        public LogViewModel()
+        {
+
+        }
         public LogViewModel(long logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgentViewModel> userAgents)
         {
             LogId = logId;

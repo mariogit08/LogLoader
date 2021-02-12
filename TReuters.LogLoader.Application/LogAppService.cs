@@ -63,7 +63,7 @@ namespace TReuters.LogLoader.Application
         public async Task<Result> DeleteLog(int logId)
         {
             var log = await _DBContext.Log.GetById(logId);
-            log.Available = false;
+            log = log.SetAvailable(false);
             var result = await _logDomainService.Update(log);
             if (result == true)
                 return Result.Ok();
@@ -87,8 +87,12 @@ namespace TReuters.LogLoader.Application
 
         public async Task<Result<LogViewModel>> GetById(int logId)
         {
-            var viewModelLogs = (await _DBContext.Log.GetById(logId)).ToViewModel();
-            return Result.Ok(viewModelLogs);
+            Maybe<LogViewModel> viewModelLog = (await _DBContext.Log.GetById(logId)).ToViewModel();
+            if (viewModelLog.HasNoValue)
+                return Result.Fail<LogViewModel>($"Log with logId:{logId} was not found");
+            else
+                return Result.Ok(viewModelLog.Value); 
+
         }
 
         public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, string fromHour, string fromMinute, string toHour, string toMinute)

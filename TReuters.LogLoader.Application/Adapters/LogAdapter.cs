@@ -11,19 +11,22 @@ namespace TReuters.LogLoader.Application.Adapters
     {
         public static LogViewModel ToViewModel(this Log log)
         {
-            var userAgentsViewModel = log.UserAgents.Select(a => a.ToViewModel()).ToList();
+            if (log == null)
+                return null;
+
+            var userAgentsViewModel = log?.UserAgents?.Select(a => a?.ToViewModel())?.ToList();
             return new LogViewModel(log.LogId.Value,
-                                    log.IP, 
-                                    log.UserIdentifier, 
-                                    log.RequestDate, 
-                                    log.Timezone, 
-                                    log.Method, 
-                                    log.RequestURL, 
-                                    log.Protocol, 
-                                    log.ProtocolVersion, 
-                                    log.StatusCodeResponse, 
+                                    log.IP,
+                                    log.UserIdentifier,
+                                    log.RequestDate,
+                                    log.Timezone,
+                                    log.Method,
+                                    log.RequestURL,
+                                    log.Protocol,
+                                    log.ProtocolVersion,
+                                    log.StatusCodeResponse,
                                     log.Port,
-                                    log.OriginUrl, 
+                                    log.OriginUrl,
                                     userAgentsViewModel);
         }
 

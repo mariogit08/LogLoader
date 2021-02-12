@@ -36,15 +36,19 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TReuters.LogLoader.WebSite(
 		SlnRelativePath = "TReuters.LogLoader.WebSite\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Infra.Crosscutting", "TReuters.LogLoader.Infra.Crosscutting\TReuters.LogLoader.Infra.Crosscutting.csproj", "{34F8F90C-752C-489E-8AB7-E53A34D91ACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Infra.Crosscutting", "TReuters.LogLoader.Infra.Crosscutting\TReuters.LogLoader.Infra.Crosscutting.csproj", "{34F8F90C-752C-489E-8AB7-E53A34D91ACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Infra.Data", "TReuters.LogLoader.Infra.Data\TReuters.LogLoader.Infra.Data.csproj", "{D6142F07-2EC1-4CEA-8214-3C967DCC90EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Infra.Data", "TReuters.LogLoader.Infra.Data\TReuters.LogLoader.Infra.Data.csproj", "{D6142F07-2EC1-4CEA-8214-3C967DCC90EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Infra.IOC", "TReuters.LogLoader.Infra.IOC\TReuters.LogLoader.Infra.IOC.csproj", "{0ED1D0FE-B26C-4246-ABB2-E606942F0D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Infra.IOC", "TReuters.LogLoader.Infra.IOC\TReuters.LogLoader.Infra.IOC.csproj", "{0ED1D0FE-B26C-4246-ABB2-E606942F0D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Infra.Service", "TReuters.LogLoader.Infra.Service\TReuters.LogLoader.Infra.Service.csproj", "{CDC30403-F7D9-4861-BF71-67B065E4430D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Infra.Service", "TReuters.LogLoader.Infra.Service\TReuters.LogLoader.Infra.Service.csproj", "{CDC30403-F7D9-4861-BF71-67B065E4430D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Domain", "TReuters.LogLoader.Domain\TReuters.LogLoader.Domain.csproj", "{FF2D635B-DE79-428C-A6F0-96B6DB305F5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TReuters.LogLoader.Domain", "TReuters.LogLoader.Domain\TReuters.LogLoader.Domain.csproj", "{FF2D635B-DE79-428C-A6F0-96B6DB305F5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{43FDFB42-739B-46B8-A2AD-2806194AA5FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TReuters.LogLoader.Test", "TReuters.LogLoader.Test\TReuters.LogLoader.Test.csproj", "{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +88,10 @@ Global
 		{FF2D635B-DE79-428C-A6F0-96B6DB305F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2D635B-DE79-428C-A6F0-96B6DB305F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2D635B-DE79-428C-A6F0-96B6DB305F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +105,7 @@ Global
 		{0ED1D0FE-B26C-4246-ABB2-E606942F0D48} = {0646F4D2-82F7-43F6-963A-28419D37BDFD}
 		{CDC30403-F7D9-4861-BF71-67B065E4430D} = {0646F4D2-82F7-43F6-963A-28419D37BDFD}
 		{FF2D635B-DE79-428C-A6F0-96B6DB305F5C} = {BD6652BF-1B98-4DB7-84EC-218F3042F078}
+		{6D8D1162-7057-4398-97BF-FCB2D5C0F0D7} = {43FDFB42-739B-46B8-A2AD-2806194AA5FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5736214-7635-4365-B13E-F08CBF704749}

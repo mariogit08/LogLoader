@@ -19,5 +19,11 @@ namespace TReuters.LogLoader.Infra.Crosscutting.Helpers
             }
             return result.ToString();
         }
+
+        public static string GetExtension(this IFormFile file)
+        {
+            string extension = Path.GetExtension(file.FileName);
+            return extension;
+        }
     }
 }

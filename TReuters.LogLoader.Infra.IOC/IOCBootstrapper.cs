@@ -9,7 +9,7 @@ namespace TReuters.LogLoader.Infra.IOC
 {
     public static class IOCBootstrapper
     {
-        public static void RegisterInstances(this IServiceCollection services)
+        public static void RegisterAllIOCModules(this IServiceCollection services)
         {
             services.RegisterApplications();
             services.RegisterContexts();

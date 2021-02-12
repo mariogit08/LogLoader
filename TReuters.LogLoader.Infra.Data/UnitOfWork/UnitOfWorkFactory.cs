@@ -8,7 +8,6 @@ namespace TReuters.LogLoader.Infra.Data.UnitOfWork
 {
     public class UnitOfWorkFactory<TConnection> : IUnitOfWorkFactory where TConnection : IDbConnection, new()
     {
-        private readonly IDbConnectionFactory _connectionFactory;
         private string connectionString;
 
         public IUnitOfWork Create(string connectionString)

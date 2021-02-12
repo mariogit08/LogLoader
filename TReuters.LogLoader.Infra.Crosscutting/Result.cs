@@ -37,9 +37,9 @@ namespace TReuters.LogLoader.Infra.Crosscutting
             return new Result(true, String.Empty);
         }
 
-        public static Result<T> Ok<T>(T value)
+        public static Result<T> Ok<T>([AllowNull] T value)
         {
-            return new Result<T>(value, true, String.Empty);
+            return new Result<T>(value, true, string.Empty);
         }
 
         public static Result Combine(params Result[] results)
@@ -82,7 +82,7 @@ namespace TReuters.LogLoader.Infra.Crosscutting
 
     public static class Contracts
     {
-        public static void Require(bool precondition, string exceptionMessage = null)
+        public static void Require(bool precondition, [AllowNull] string exceptionMessage = null)
         {
             if (!precondition)
                 throw new ArgumentException(exceptionMessage);

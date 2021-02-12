@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TReuters.LogLoader.Application.Interfaces;
 using TReuters.LogLoader.Application.Models;
+using TReuters.LogLoader.Infra.Crosscutting.Helpers;
 
 namespace TReuters.LogLoader.WebAPI.Controllers
 {
@@ -15,10 +16,9 @@ namespace TReuters.LogLoader.WebAPI.Controllers
         private readonly ILogger<LogController> _logger;
         private readonly ILogAppService _logAppService;
 
-
-        public LogController(ILogger<LogController> logger, ILogAppService logAppService)
+        public LogController(ILogAppService logAppService)
         {
-            _logger = logger;
+
             _logAppService = logAppService;
         }
 
@@ -35,6 +35,9 @@ namespace TReuters.LogLoader.WebAPI.Controllers
         public async Task<ActionResult<LogViewModel>> Get(int id)
         {
             var result = await _logAppService.GetById(id);
+            if (result.Failure)
+                return NotFound(result);
+
             return Ok(result);
         }
 
@@ -99,8 +102,12 @@ namespace TReuters.LogLoader.WebAPI.Controllers
 
         [Route("api/logs/batch")]
         [HttpPost]
-        public async Task<ActionResult<bool>> Batch([FromForm] IFormFile file)
+        public async Task<ActionResult<bool>> PostBatch([FromForm] IFormFile file)
         {
+            if (file == null || file.GetExtension() != ".txt")
+                return BadRequest();
+
+
             var result = await _logAppService.InsertLogBatchFileAsync(file);
             return Ok(result);
         }

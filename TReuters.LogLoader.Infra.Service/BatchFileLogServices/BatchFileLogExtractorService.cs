@@ -23,7 +23,6 @@ namespace TReuters.LogLoader.Infra.Service
 
         public async Task<Result<List<Log>>> ExtractLogsFromFile(IFormFile file)
         {
-
             string logLines = await file.ReadAsStringAsync();
             var logs = new List<Log>();
             foreach (var logLine in logLines.Split(Environment.NewLine))
@@ -38,6 +37,7 @@ namespace TReuters.LogLoader.Infra.Service
             }
             return Result.Ok(logs);
         }
+
         private Log ExtractRequiredFirstGroupLogInformation(Match generalMatch)
         {
             var ip = generalMatch.Groups["ip"].Value;
@@ -49,7 +49,6 @@ namespace TReuters.LogLoader.Infra.Service
             var protocol = generalMatch.Groups["protocol"]?.Value.Replace("/", "");
             var protocolVersion = generalMatch.Groups["protocolVersion"].Value;
             int.TryParse(generalMatch.Groups["statusCode"].Value, out int statusCodeResponse);
-
             return new Log(ip, user, requestDate, timezone, method, requestUrl, protocol, protocolVersion, statusCodeResponse);
         }
 

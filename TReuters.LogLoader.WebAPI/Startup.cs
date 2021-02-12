@@ -65,7 +65,7 @@ namespace TReuters.LogLoader.WebAPI
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
 
-            IOCBootstrapper.RegisterInstances(services);
+            IOCBootstrapper.RegisterAllIOCModules(services);
         }
     }
 }

@@ -7,35 +7,77 @@ namespace TReuters.LogLoader.Domain.Entities
 {
     public class Log
     {
-        public long? LogId { get; set; }
-        private string iP;
-        private DateTime requestDate;
-        private string timezone;
-        private string method;
-        private string requestURL;
-        private string protocol;
-        private string protocolVersion;
-        private int statusCodeResponse;
+        public long? LogId { get; private set; }
+        public string IP { get; private set; }
+        public string UserIdentifier { get; private set; }
+        public DateTime RequestDate { get; private set; }
+        public string Timezone { get; private set; }
+        public string Method { get; private set; }
+        public string RequestURL { get; private set; }
+        public string Protocol { get; private set; }
+        public string ProtocolVersion { get; private set; }
+        public int StatusCodeResponse { get; private set; }
+        public int Port { get; private set; }
+        public string OriginUrl { get; private set; }
+        public List<UserAgent> UserAgents { get; private set; } = new List<UserAgent>();
+        public bool Available { get; private set; } = true;
 
-        public Log(long logid, string ip, string useridentifier, DateTime requestdate, string timezone, string method, string requesturl, string protocol, string protocolversion, int statuscoderesponse, int port, string originurl, List<UserAgent> useragents)
+
+        public Log()
         {
-            LogId = logid;
-            IP = ip;
-            UserIdentifier = useridentifier;
-            RequestDate = requestdate;
-            Timezone = timezone;
-            Method = method;
-            RequestURL = requesturl;
-            Protocol = protocol;
-            ProtocolVersion = protocolversion;
-            StatusCodeResponse = statuscoderesponse;
-            Port = port;
-            OriginUrl = originurl;
-            UserAgents = useragents;
+
         }
+        
 
         public Log(string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
         {
+            SetIP(iP);
+            SetUserIdentifier(userIdentifier);
+            SetRequestDate(requestDate);
+            SetTimezone(timezone);
+            SetMethod(method);
+            SetRequestURL(requestURL);
+            SetProtocol(protocol);
+            SetProtocolVersion(protocolVersion);
+            SetStatusCodeResponse(statusCodeResponse);
+            SetPort(port);
+            SetOriginUrl(originUrl);
+            SetUserAgents(userAgents);
+        }
+
+        public Log(long logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents)
+        {
+            SetLogId(logId);
+            SetIP(iP);
+            SetUserIdentifier(userIdentifier);
+            SetRequestDate(requestDate);
+            SetTimezone(timezone);
+            SetMethod(method);
+            SetRequestURL(requestURL);
+            SetProtocol(protocol);
+            SetProtocolVersion(protocolVersion);
+            SetStatusCodeResponse(statusCodeResponse);
+            SetPort(port);
+            SetOriginUrl(originUrl);
+            SetUserAgents(userAgents);
+        }
+
+        public Log(string ip, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse)
+        {
+            SetIP(ip);
+            SetUserIdentifier(userIdentifier);
+            SetRequestDate(requestDate);
+            SetTimezone(timezone);
+            SetMethod(method);
+            SetRequestURL(requestURL);
+            SetProtocol(protocol);
+            SetProtocolVersion(protocolVersion);
+            SetStatusCodeResponse(statusCodeResponse);                                
+        }
+
+        private Log(long? logId, string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse, int port, string originUrl, List<UserAgent> userAgents, bool available)
+        {
+            LogId = logId;
             IP = iP;
             UserIdentifier = userIdentifier;
             RequestDate = requestDate;
@@ -48,184 +90,122 @@ namespace TReuters.LogLoader.Domain.Entities
             Port = port;
             OriginUrl = originUrl;
             UserAgents = userAgents;
+            Available = available;
         }
 
-        public Log(string iP, string userIdentifier, DateTime requestDate, string timezone, string method, string requestURL, string protocol, string protocolVersion, int statusCodeResponse)
+        public Log SetLogId(long? logId)
         {
-            IP = iP;
-            UserIdentifier = userIdentifier;
-            RequestDate = requestDate;
-            Timezone = timezone;
-            Method = method;
-            RequestURL = requestURL;
-            Protocol = protocol;
-            ProtocolVersion = protocolVersion;
-            StatusCodeResponse = statusCodeResponse;
+            return Clone(logId: logId);
         }
 
-        public Log()
+        public Log SetIP(string ip)
         {
+            var validIP = Regex.IsMatch(ip, @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+            if (validIP)
+                return Clone(iP: ip);
+            else
+                throw new ArgumentException("Invalid IP");
 
         }
-        
-        //public Log(int logid, string ip, DateTime requestdate, string timezone, string method, string requesturl, string protocol, string protocolversion, int statuscoderesponse, string originurl, int port, string useridentifier, bool available)
-        //{
-        //    LogId = logid;
-        //    IP = ip;
-        //    UserIdentifier = useridentifier;            
-        //    RequestDate = requestdate;
-        //    Timezone = timezone;
-        //    Method = method;
-        //    RequestURL = requesturl;
-        //    Protocol = protocol;
-        //    ProtocolVersion = protocolversion;
-        //    StatusCodeResponse = statuscoderesponse;
-        //    Port = port;
-        //    OriginUrl = originurl;
-        //    Available = available;
-        //}
 
-        public string IP
+        public Log SetUserIdentifier(string userIdentifier)
         {
-            get => iP;
-            set
-            {
-                var validIP = Regex.IsMatch(value, @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                if (validIP)
-                    iP = value;
-                else
-                    throw new ArgumentException("Invalid IP");
-            }
-        }
-        public string UserIdentifier { get; set; }
-        public DateTime RequestDate
-        {
-            get => requestDate;
-            set
-            {
-                if (value.CompareTo(DateTime.MinValue) <= 0)
-                    throw new ArgumentException("set a valid date greater than 1970-01-01 08:00:00");
-                else
-                    requestDate = value;
-            }
+            if (userIdentifier == null)
+                throw new ArgumentException("Timezone cannot be null");
+
+            return Clone(userIdentifier: userIdentifier);
         }
 
-        public string Timezone
+        public Log SetRequestDate(DateTime requestDate)
         {
-            get => timezone;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Timezone cannot be null");
-                /*if()*///TimeZone validantio two formats - Conversor from GMT+11:00 to +01100 format and virse versa
+            DateTime.TryParse("1970-01-01 08:00:00", out DateTime requestDateOut);
+            if (requestDate.CompareTo(requestDateOut) <= 0)
+                throw new ArgumentException("set a valid date greater than 1970-01-01 08:00:00");
 
-                timezone = value;
-            }
-        }
-        public string Method
-        {
-            get => method; set
-            {
-                if (value == null)
-                    throw new ArgumentException("Method cannot be null");
-
-                method = value;
-            }
+            return Clone(requestDate: requestDate);
         }
 
-        public string RequestURL
+        public Log SetTimezone(string timezone)
         {
-            get => requestURL;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("RequestURL cannot be null");
-
-                requestURL = value;
-            }
-        }
-        public string Protocol
-        {
-            get => protocol;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Protocol cannot be null");
-
-                protocol = value;
-            }
+            if (timezone == null)
+                throw new ArgumentException("Timezone cannot be null");
+            return Clone(timezone: timezone);
         }
 
-        public string ProtocolVersion
+        public Log SetMethod(string method)
         {
-            get => protocolVersion;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("ProtocolVersion cannot be null");
-
-                protocolVersion = value;
-            }
-        }
-        public int StatusCodeResponse
-        {
-            get => statusCodeResponse;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentException("StatusCode cannot be negative a number");
-
-                statusCodeResponse = value;
-            }
-        }
-        public int Port { get; set; }
-        public string OriginUrl { get; set; }
-        public List<UserAgent> UserAgents { get; set; } = new List<UserAgent>();
-        public bool Available { get; set; } = true;
-
-        public override bool Equals(object obj)
-        {
-            return obj is Log log &&
-                   LogId == log.LogId &&
-                   IP == log.IP &&
-                   UserIdentifier == log.UserIdentifier &&
-                   RequestDate == log.RequestDate &&
-                   Timezone == log.Timezone &&
-                   Method == log.Method &&
-                   RequestURL == log.RequestURL &&
-                   Protocol == log.Protocol &&
-                   ProtocolVersion == log.ProtocolVersion &&
-                   StatusCodeResponse == log.StatusCodeResponse &&
-                   Port == log.Port &&
-                   OriginUrl == log.OriginUrl &&
-                   EqualityComparer<IEnumerable<UserAgent>>.Default.Equals(UserAgents, log.UserAgents);
+            return Clone(method: method);
         }
 
-        public override int GetHashCode()
+
+        public Log SetRequestURL(string requestURL)
         {
-            HashCode hash = new HashCode();
-            hash.Add(LogId);
-            hash.Add(iP);
-            hash.Add(requestDate);
-            hash.Add(timezone);
-            hash.Add(method);
-            hash.Add(requestURL);
-            hash.Add(protocol);
-            hash.Add(protocolVersion);
-            hash.Add(statusCodeResponse);
-            hash.Add(IP);
-            hash.Add(UserIdentifier);
-            hash.Add(RequestDate);
-            hash.Add(Timezone);
-            hash.Add(Method);
-            hash.Add(RequestURL);
-            hash.Add(Protocol);
-            hash.Add(ProtocolVersion);
-            hash.Add(StatusCodeResponse);
-            hash.Add(Port);
-            hash.Add(OriginUrl);
-            hash.Add(UserAgents);
-            return hash.ToHashCode();
+            if (requestURL == null)
+                throw new ArgumentException("RequestURL cannot be null");
+
+            return Clone(requestURL: requestURL);
+        }
+
+        public Log SetProtocol(string protocol)
+        {
+            if (protocol == null)
+                throw new ArgumentException("Protocol cannot be null");
+
+            return Clone(protocol: protocol);
+        }
+
+        public Log SetProtocolVersion(string protocolVersion)
+        {
+            if (protocolVersion == null)
+                throw new ArgumentException("ProtocolVersion cannot be null");
+            return Clone(protocolVersion: protocolVersion);
+        }
+
+        public Log SetStatusCodeResponse(int statusCodeResponse)
+        {
+            if (statusCodeResponse <= 0)
+                throw new ArgumentException("StatusCode cannot be negative a number");
+
+            return Clone(statusCodeResponse: statusCodeResponse);
+        }
+
+        public Log SetPort(int port)
+        {
+            return Clone(port: port);
+        }
+
+        public Log SetOriginUrl(string originUrl)
+        {
+            return Clone(originUrl: originUrl);
+        }
+
+        public Log SetUserAgents(List<UserAgent> userAgents)
+        {
+            return Clone(userAgents: userAgents);
+        }
+
+        public Log SetAvailable(bool available)
+        {
+            return Clone(available: available);
+        }
+        public Log Clone(long? logId = null, string iP = null, string userIdentifier = null, DateTime? requestDate = null, string timezone = null, string method = null, string requestURL = null, string protocol = null, string protocolVersion = null, int? statusCodeResponse = null, int? port = null, string originUrl = null, List<UserAgent> userAgents = null, bool? available = null)
+        {
+            var logId_ = logId ?? LogId;
+            var iP_ = iP ?? IP;
+            var userIdentifier_ = userIdentifier ?? UserIdentifier;
+            var requestDate_ = requestDate ?? RequestDate;
+            var timezone_ = timezone ?? Timezone;
+            var method_ = method ?? Method;
+            var requestURL_ = requestURL ?? RequestURL;
+            var protocol_ = protocol ?? Protocol;
+            var protocolVersion_ = protocolVersion ?? ProtocolVersion;
+            var statusCodeResponse_ = statusCodeResponse ?? StatusCodeResponse;
+            var port_ = port ?? Port;
+            var originUrl_ = originUrl ?? OriginUrl;
+            var userAgents_ = userAgents ?? UserAgents;
+            var available_ = available ?? Available;
+
+            return new Log(logId_, iP_, userIdentifier_, requestDate_, timezone_, method_, requestURL_, protocol_, protocolVersion_, statusCodeResponse_, port_, originUrl_, userAgents_, available_);
         }
     }
 }
