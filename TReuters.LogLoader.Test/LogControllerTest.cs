@@ -44,19 +44,18 @@ namespace TReuters.LogLoader
 
             _services.AddTransient<IConfiguration>((ser) => configuration);
             _services.AddTransient<LogController, LogController>();
-
+            
             _serviceProvider = _services.BuildServiceProvider();
+
+            _logController = _serviceProvider.GetService<LogController>();
         }
 
-        public LogControllerTest()
-        {
-
-        }
+        
 
         #region GetById
 
         [Test]
-        public void GetByIdShouldReturnOkResult()
+        public void GetLogByIdShouldReturnOkResultWhenInputExistentId()
         {
             //Setup AppService Instance            
             var logAppServiceMock = new Mock<ILogAppService>();
@@ -65,68 +64,42 @@ namespace TReuters.LogLoader
             _services.AddTransient((ser) => logAppServiceMock.Object);
             _serviceProvider = _services.BuildServiceProvider();
 
-            var logController = _serviceProvider.GetService<LogController>();
+            _logController = _serviceProvider.GetService<LogController>();
 
-            var result = logController.Get(1).Result;
+            var result = _logController.Get(1).Result;
 
             Assert.IsInstanceOf<OkObjectResult>(result.Result);
         }
 
 
         [Test]
-        public void Task_GetPostById_Return_NotFoundResult()
+        public void GetLogByIdShoudReturnNotFoundResultWhenInputAnNonExistentId()
         {
-            var logController = _serviceProvider.GetService<LogController>();
-
             const int nonExistentId = -1000;
-            var result = logController.Get(nonExistentId).Result;
+            var result = _logController.Get(nonExistentId).Result;
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
         }
 
-        //[Fact]
-        //public async void Task_GetPostById_Return_BadRequestResult()
-        //{
-        //    //Arrange  
-        //    var controller = new PostController(repository);
-        //    int? postId = null;
+        [Test]
+        public void PutLogShoudReturnBadRequestWhenUrlIdAndLogObjectIdDontMatch()
+        {
+            const int anyId = 100;
+            const int differentId = 200;
+            var result = _logController.Put(anyId, new LogViewModel() { LogId = differentId }).Result;
 
-        //    //Act  
-        //    var data = await controller.GetPost(postId);
-
-        //    //Assert  
-        //    Assert.IsType<BadRequestResult>(data);
-        //}
-
-        //[Fact]
-        //public async void Task_GetPostById_MatchResult()
-        //{
-        //    //Arrange  
-        //    var controller = new PostController(repository);
-        //    int? postId = 1;
-
-        //    //Act  
-        //    var data = await controller.GetPost(postId);
-
-        //    //Assert  
-        //    Assert.IsType<OkObjectResult>(data);
-
-        //    var okResult = data.Should().BeOfType<OkObjectResult>().Subject;
-        //    var post = okResult.Value.Should().BeAssignableTo<PostViewModel>().Subject;
-
-        //    Assert.Equal("Test Title 1", post.Title);
-        //    Assert.Equal("Test Description 1", post.Description);
-        //}
-
+            Assert.IsInstanceOf<BadRequestResult>(result.Result);
+        }
         #endregion
 
-
-
-        [Test]
-        public void ShouldReturnsBadRequestWhenIsNotTxtFile()
+        [TestCase("TReuters.pdf")]
+        [TestCase("TReuters.jpg")]
+        [TestCase("TReuters.html")]
+        [TestCase("TReuters.bat")]
+        public void ShouldReturnsBadRequestWhenIsNotTxtFile(string fileName)
         {
             var fileMock = new Mock<IFormFile>();
-            fileMock.Setup(_ => _.FileName).Returns("TReuters.img");
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
             var result = _logController.PostBatch(fileMock.Object).Result;
             Assert.IsInstanceOf<BadRequestResult>(result.Result);
         }
@@ -138,52 +111,5 @@ namespace TReuters.LogLoader
             Assert.IsInstanceOf<BadRequestResult>(result.Result);
         }
 
-        public static IFormFile AsMockIFormFile(FileInfo physicalFile)
-        {
-            var fileMock = new Mock<IFormFile>();
-            var ms = new MemoryStream();
-            var writer = new StreamWriter(ms);
-            writer.Write(physicalFile.OpenRead());
-            writer.Flush();
-            ms.Position = 0;
-            var fileName = physicalFile.Name;
-            //Setup mock file using info from physical file
-            fileMock.Setup(_ => _.FileName).Returns(fileName);
-            fileMock.Setup(_ => _.Length).Returns(ms.Length);
-            fileMock.Setup(m => m.OpenReadStream()).Returns(ms);
-            fileMock.Setup(m => m.ContentDisposition).Returns(string.Format("inline; filename={0}", fileName));
-            //...setup other members (code removed for brevity)
-
-
-            return fileMock.Object;
-        }
-
-        [Test]
-        public async Task Controller_Should_Upload_FormFile()
-        {
-            //// Arrange.
-            //var fileMock = new Mock<IFormFile>();
-            //var physicalFile = new FileInfo("filePath");
-            //var ms = new MemoryStream();
-            //var writer = new StreamWriter(ms);
-            //writer.Write(physicalFile.OpenRead());
-            //writer.Flush();
-            //ms.Position = 0;
-            //var fileName = physicalFile.Name;
-            ////Setup mock file using info from physical file
-            //fileMock.Setup(_ => _.FileName).Returns(fileName);
-            //fileMock.Setup(_ => _.Length).Returns(ms.Length);
-            //fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
-            //fileMock.Setup(_ => _.ContentDisposition).Returns(string.Format("inline; filename={0}", fileName));
-            ////...setup other members as needed.
-
-            //var file = fileMock.Object;
-
-            //// Act.
-            //var result = await _logController.Upload(file);
-
-            ////Assert.
-            //Assert.IsInstanceOf(result, typeof(IActionResult));
-        }
     }
 }

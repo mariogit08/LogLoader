@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using TReuters.LogLoader.Infra.IOC;
 
 namespace TReuters.LogLoader.WebAPI
@@ -36,7 +38,7 @@ namespace TReuters.LogLoader.WebAPI
                             StatusCode = StatusCodes.Status500InternalServerError,
                             ErrorMessage = ex.Message
                         }.ToString()); ; //ToString() is overridden to Serialize object
-                }
+                    }
                 });
             });
 
@@ -58,14 +60,54 @@ namespace TReuters.LogLoader.WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            AddSwaggerUI(app);
+
+        }
+
+        private static void AddSwaggerUI(IApplicationBuilder app)
+        {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
+            ConfigSwaggerAPIInfo(services);
 
             IOCBootstrapper.RegisterAllIOCModules(services);
+        }
+
+        private static void ConfigSwaggerAPIInfo(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "LogLoader API",
+                    Description = "A REST ASP.NET Core WebAPI exposing LogLoader Features",
+                    TermsOfService = new Uri("https://github.com/mariogit08"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Mário Chaves",
+                        Email = string.Empty,
+                        Url = new Uri("https://www.linkedin.com/in/mariodeveloper/"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://github.com/mariogit08"),
+                    }
+                });
+            });
         }
     }
 }

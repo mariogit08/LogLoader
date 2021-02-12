@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TReuters.LogLoader.Application.Adapters;
 using TReuters.LogLoader.Application.Interfaces;
 using TReuters.LogLoader.Application.Models;
+using TReuters.LogLoader.Domain.Entities;
 using TReuters.LogLoader.Domain.Interfaces.DBContext;
 using TReuters.LogLoader.Domain.Interfaces.DomainServices;
 using TReuters.LogLoader.Infra.Crosscutting;
@@ -52,23 +53,40 @@ namespace TReuters.LogLoader.Application
 
         public async Task<Result> UpdateLog(LogViewModel logViewModel)
         {
-            var log = logViewModel.ToDomainModel();
-            var result = await _logDomainService.Update(log);
-            if (result == true)
-                return Result.Ok();
-            else
+            try
+            {
+                var log = logViewModel.ToDomainModel();
+                var result = await _logDomainService.Update(log);
+                if (result == true)
+                    return Result.Ok();
+                else
+                    return Result.Fail("An error has ocurred, was not possible update log");
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch
+            {
                 return Result.Fail("An error has ocurred, was not possible update log");
+            }
         }
 
         public async Task<Result> DeleteLog(int logId)
         {
-            var log = await _DBContext.Log.GetById(logId);
-            log = log.SetAvailable(false);
-            var result = await _logDomainService.Update(log);
-            if (result == true)
-                return Result.Ok();
+            Maybe<Log> log = await _DBContext.Log.GetById(logId);
+            if (log.HasValue)
+            {
+                log = log.Value.SetAvailable(false);
+                var result = await _logDomainService.Update(log.Value);
+                if (result == true)
+                    return Result.Ok();
+                else
+                    return Result.Fail("An error has ocurred, was not possible delete log");
+            }
             else
-                return Result.Fail("An error has ocurred, was not possible delete log");
+                return Result.Fail<LogViewModel>($"Log with logId {logId} was not found");
+
         }
 
         public async Task<Result<IEnumerable<LogViewModel>>> GetAllLogs()
@@ -89,22 +107,28 @@ namespace TReuters.LogLoader.Application
         {
             Maybe<LogViewModel> viewModelLog = (await _DBContext.Log.GetById(logId)).ToViewModel();
             if (viewModelLog.HasNoValue)
-                return Result.Fail<LogViewModel>($"Log with logId:{logId} was not found");
+                return Result.Fail<LogViewModel>($"Log with logId {logId} was not found");
             else
                 return Result.Ok(viewModelLog.Value); 
 
         }
 
-        public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, string fromHour, string fromMinute, string toHour, string toMinute)
+        public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, int? fromHour, int? fromMinute, int? toHour, int? toMinute)
         {
+            //var viewModelLogs = (await _DBContext.Log.GetByFilter
+            //                    (ip,
+            //                    userAgentProduct,
+            //                    TryParseNullable(fromHour),
+            //                    TryParseNullable(fromMinute),
+            //                    TryParseNullable(toHour),
+            //                    TryParseNullable(toMinute))).Select(a => a.ToViewModel());
             var viewModelLogs = (await _DBContext.Log.GetByFilter
                                 (ip,
                                 userAgentProduct,
-                                TryParseNullable(fromHour),
-                                TryParseNullable(fromMinute),
-                                TryParseNullable(toHour),
-                                TryParseNullable(toMinute))).Select(a => a.ToViewModel());
-
+                                fromHour,
+                                fromMinute,
+                                toHour,
+                                toMinute)).Select(a => a.ToViewModel());
             return Result.Ok(viewModelLogs);
         }
 

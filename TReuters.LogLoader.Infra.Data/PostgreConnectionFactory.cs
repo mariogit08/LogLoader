@@ -18,10 +18,8 @@ namespace TReuters.LogLoader.Infra.Data
 
         public IDbConnection CreateConnection(string connectionStringName)
         {
-            var connectionString = "Host=localhost;Port=5432;Username=postgres;Password=123;Database=LogLoader;";
-            var connection2 = configuration.GetSection($"ConnectionStrings:{connectionStringName}").Value;
             var connection = new NpgsqlConnection(configuration.GetSection($"ConnectionStrings:{connectionStringName}").Value);
-            
+
             connection.Open();
             return connection;
         }

@@ -61,9 +61,10 @@ namespace TReuters.LogLoader.Infra.Crosscutting
 
         public T Value
         {
+            [return: AllowNull]
             get
             {
-                Contracts.Require(Success);
+                Contracts.Require(Success || Error != null);
 
                 return _value;
             }

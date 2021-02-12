@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TReuters.LogLoader.Application.Interfaces;
 using TReuters.LogLoader.Application.Models;
+using TReuters.LogLoader.Infra.Crosscutting;
 using TReuters.LogLoader.Infra.Crosscutting.Helpers;
+using TReuters.LogLoader.WebAPI.Models;
 
 namespace TReuters.LogLoader.WebAPI.Controllers
 {
@@ -48,17 +50,7 @@ namespace TReuters.LogLoader.WebAPI.Controllers
             var result = await _logAppService.GetByFilter(lf.ip, lf.userAgentProduct, lf.fromHour, lf.fromMinute, lf.toHour, lf.toMinute);
             return Ok(result);
         }
-
-        public class LogFilterParameters
-        {
-            public string ip { get; set; }
-            public string userAgentProduct { get; set; }
-            public string fromHour { get; set; }
-            public string fromMinute { get; set; }
-            public string toHour { get; set; }
-            public string toMinute { get; set; }
-
-        }
+        
 
         [Route("api/logs")]
         [HttpPost]
@@ -77,17 +69,8 @@ namespace TReuters.LogLoader.WebAPI.Controllers
             {
                 return BadRequest();
             }
-
-            try
-            {
-                var result = _logAppService.UpdateLog(log);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-            return Accepted(new { });
+            var result = await _logAppService.UpdateLog(log);
+            return Accepted(result);
         }
 
 
