@@ -1,0 +1,65 @@
+-- Database: LogLoader
+
+-- DROP DATABASE "LogLoader";
+
+CREATE DATABASE "LogLoader"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Portuguese_Brazil.1252'
+    LC_CTYPE = 'Portuguese_Brazil.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+	
+	
+-- Table: public.log
+
+-- DROP TABLE public.log;
+
+CREATE TABLE public.log
+(
+    logid integer NOT NULL DEFAULT nextval('log_logid_seq'::regclass),
+    ip character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    requestdate timestamp without time zone NOT NULL,
+    timezone character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    method character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    requesturl text COLLATE pg_catalog."default" NOT NULL,
+    protocol character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    protocolversion character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    statuscoderesponse smallint NOT NULL,
+    originurl character varying(50) COLLATE pg_catalog."default",
+    port bigint,
+    useridentifier character varying(50) COLLATE pg_catalog."default",
+    available boolean NOT NULL DEFAULT true,
+    CONSTRAINT primarykeylog PRIMARY KEY (logid)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.log
+    OWNER to postgres;
+	
+	
+	
+-- Table: public.useragent
+
+-- DROP TABLE public.useragent;
+
+CREATE TABLE public.useragent
+(
+    useragentid integer NOT NULL DEFAULT nextval('useragent_useragentid_seq'::regclass),
+    product character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    productversion character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    systeminformation character varying(100) COLLATE pg_catalog."default",
+    logid bigint NOT NULL,
+    CONSTRAINT useragent_pkey PRIMARY KEY (useragentid),
+    CONSTRAINT logid FOREIGN KEY (logid)
+        REFERENCES public.log (logid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.useragent
+    OWNER to postgres;
