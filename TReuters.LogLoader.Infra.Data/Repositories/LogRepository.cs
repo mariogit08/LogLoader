@@ -73,11 +73,10 @@ namespace TReuters.LogLoader.Infra.Data.Repositories
 
                 return logId;
             }
-            catch (Exception e)
+            catch
             {
-                var asd = e.Message;
+                return -1;
             }
-            return -1;
         }
 
         public async Task<bool> Update(Log log)
@@ -90,12 +89,10 @@ namespace TReuters.LogLoader.Infra.Data.Repositories
                 var result = await _con.ExecuteAsync(sql, log, _transaction) > 0;
                 return result;
             }
-            catch (Exception e)
+            catch
             {
-
-                var asd = e.Message;
-            }
-            return false;
+                return false;
+            }            
         }
 
         public async Task<Log> GetById(int logId)
@@ -164,14 +161,11 @@ namespace TReuters.LogLoader.Infra.Data.Repositories
                 var results = await GetWithAggregations(whereClause, paramObject);
                 return results;
             }
-            catch (Exception e)
+            catch
             {
-                var asd = e.Message;
+                throw;
 
-            }
-            return null;
+            }            
         }
-
-
     }
 }

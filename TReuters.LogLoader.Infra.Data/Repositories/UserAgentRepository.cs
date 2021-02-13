@@ -34,10 +34,8 @@ namespace TReuters.LogLoader.Infra.Data.Repositories
             }
             catch (Exception e)
             {
-
-                var asd = e.Message;
+                return -1;
             }
-            return -1;
         }
 
         public async Task<bool> Delete(long userAgentId)

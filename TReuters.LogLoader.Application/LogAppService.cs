@@ -105,14 +105,13 @@ namespace TReuters.LogLoader.Application
         {
             try
             {
-                var viewModelLogs = (await _DBContext.Log.GetAll()).Select(a => a.ToViewModel()).Take(100);
+                var viewModelLogs = (await _DBContext.Log.GetAll()).Select(a => a.ToViewModel());
                 return Result.Ok(viewModelLogs);
             }
-            catch (Exception e)
+            catch
             {
-                var asd = e.Message;
+                return Result.Fail<IEnumerable<LogViewModel>>("Error when try to get logs");
             }
-            return Result.Fail<IEnumerable<LogViewModel>>("Error when try to get logs");
         }
 
         public async Task<Result<LogViewModel>> GetById(int logId)
@@ -127,13 +126,6 @@ namespace TReuters.LogLoader.Application
 
         public async Task<Result<IEnumerable<LogViewModel>>> GetByFilter(string ip, string userAgentProduct, int? fromHour, int? fromMinute, int? toHour, int? toMinute)
         {
-            //var viewModelLogs = (await _DBContext.Log.GetByFilter
-            //                    (ip,
-            //                    userAgentProduct,
-            //                    TryParseNullable(fromHour),
-            //                    TryParseNullable(fromMinute),
-            //                    TryParseNullable(toHour),
-            //                    TryParseNullable(toMinute))).Select(a => a.ToViewModel());
             var viewModelLogs = (await _DBContext.Log.GetByFilter
                                 (ip,
                                 userAgentProduct,
