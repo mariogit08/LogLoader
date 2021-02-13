@@ -36,23 +36,24 @@ The application is configured to use "postgres" user and password "123" if you w
 
 ## Used concepts and techniques
 
-DDD
+#### DDD
           Rich Domain Objects
           Pure Domain
           Layered Architecture
           Layer responsability separation
           Services
           Domain Services
-Unit tests
-Aspect programming null checking using Fody/NullGuard nuget package
-Unit of Work pattern
-Explicit use of optional/null object using Maybe class
-Functional programming
+	  
+#### Unit tests
+#### Aspect programming null checking using Fody/NullGuard nuget package
+#### Unit of Work pattern
+#### Explicit use of optional/null object using Maybe class
+#### Functional programming
 	Pure Functions
 	No side effect
 	Immutability (Log Entity)
-Dependency Injection
-Avoiding exception flow control using Result.cs
-Asynchronous Web API and methods that offers a better user experience
-Application layer, adapters e view models to separate Domain Entities from endpoint data models
-Swagger to WEB API documentation
+#### Dependency Injection
+#### Avoiding exception flow control using Result.cs
+#### Asynchronous Web API and methods that offers a better user experience
+#### Application layer, adapters e view models to separate Domain Entities from endpoint data models
+#### Swagger to WEB API documentation
